@@ -65,6 +65,6 @@ func splitPane(binPath, paneID string) error {
 }
 
 func fail(msg string) {
-	fmt.Fprintln(os.Stderr, "even-columns:", msg)
+	fmt.Fprintln(os.Stderr, "equalize-vsplit:", msg)
 	os.Exit(1)
 }

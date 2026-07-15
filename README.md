@@ -1,77 +1,111 @@
 # Equalize VSplit
 
-現在のペインを右方向に分割し、同列のペイン幅を均等にする Herdr プラグインです。
+A [Herdr](https://herdr.dev) plugin that splits the current pane to the right
+and equalizes column widths in the active tab.
 
-## 必要環境
+## Requirements
 
-- [Herdr](https://herdr.dev) v0.7.0 以上（macOS）
-- [Go](https://go.dev) 1.26.2 以上（ビルド時）
+- [Herdr](https://herdr.dev) v0.7.0 or later (macOS)
+- [Go](https://go.dev) 1.26.2 or later (the plugin is built from source at install
+  time; no prebuilt binaries are shipped)
 
-## インストール
+## Installation
 
 ```console
 herdr plugin install devoc09/herdr-equalize-vsplit
 ```
 
-インストールが完了すると、プラグイン ID `equalize-vsplit` で登録されます。
+Herdr clones the repo, runs the `[[build]]` step (which compiles the Go source),
+and registers the plugin with the ID `devoc09.equalize-vsplit`.
 
-## 使い方
+## Usage
 
-### アクションの確認
-
-```console
-herdr plugin action list --plugin equalize-vsplit
-```
-
-### アクションの実行
+### List the available action
 
 ```console
-herdr plugin action invoke split --plugin equalize-vsplit
+herdr plugin action list --plugin devoc09.equalize-vsplit
 ```
 
-1 回の実行でペインが右に分割され、左右 2 列が均等幅になります。
-分割された右側のペインで再度実行すると、3 列が均等幅になります。
+### Invoke the action
 
-### キーバインドの割り当て（任意）
+```console
+herdr plugin action invoke split --plugin devoc09.equalize-vsplit
+```
 
-`~/.config/herdr/config.toml` に以下を追加すると、ショートカットキーからアクションを実行できます。
+The first invocation splits the current pane to the right and sets both columns
+to equal width. Invoke it again on one of the new right-side panes to create
+three equal columns. Each invocation finds every sibling split in the `right`
+direction and recalculates the equal ratio for each column.
+
+### Bind a key (optional)
+
+Add a `[[keys.command]]` entry to your Herdr config
+(`~/.config/herdr/config.toml`):
 
 ```toml
 [[keys.command]]
 key = "prefix+\\"
 type = "plugin_action"
-command = "equalize-vsplit.split"
+command = "devoc09.equalize-vsplit.split"
 description = "Split and equalize columns"
 ```
 
-## アンインストール
+Reload the running config without restarting Herdr:
 
 ```console
-herdr plugin uninstall equalize-vsplit
+herdr server reload-config
 ```
 
-またはインストール時のソース指定でも解除できます。
+### Check the action log
+
+```console
+herdr plugin log list --plugin devoc09.equalize-vsplit
+```
+
+## Uninstall
+
+```console
+herdr plugin uninstall devoc09.equalize-vsplit
+```
+
+Or by its install source:
 
 ```console
 herdr plugin uninstall devoc09/herdr-equalize-vsplit
 ```
 
-## 開発
+## Development
 
-### ローカルリンク
+### Local link
 
 ```console
 herdr plugin link /path/to/herdr-equalize-vsplit
 ```
 
-### テスト
+### Run tests
 
 ```console
 go test ./...
 ```
 
-### ビルド
+### Build
 
 ```console
 go build -o bin/herdr-equalize-vsplit .
 ```
+
+## How it works
+
+The plugin communicates with the running Herdr server through its
+[socket API](https://herdr.dev/docs/socket-api/). It calls `layout.export` to
+read the current tab's layout tree, walks every `right`-directional split, and
+computes equal ratios based on the number of columns spanned by each split. It
+then calls `layout.set_split_ratio` for each split, ordered from root to leaf.
+
+## Limitations
+
+- Only `right`-direction splits are equalized; `down` splits are left untouched.
+- The plugin targets the pane identified by the `HERDR_PANE_ID` environment
+  variable.
+- Supported on macOS only (as declared in the manifest). Extending to Linux
+  requires no code changes beyond updating `platforms` in `herdr-plugin.toml`.
