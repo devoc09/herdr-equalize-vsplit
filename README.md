@@ -37,6 +37,22 @@ to equal width. Invoke it again on one of the new right-side panes to create
 three equal columns. Each invocation finds every sibling split in the `right`
 direction and recalculates the equal ratio for each column.
 
+### Comparison with normal vsplit
+
+Starting from two equal-width columns and splitting the right pane, the
+difference between a normal vsplit and Equalize VSplit is:
+
+```mermaid
+block-beta
+  columns 14
+  Before["Before"]:2 A["A<br/>50%"]:6 B["B<br/>50%"]:6
+  Normal["Normal vsplit"]:2 N1["A<br/>50%"]:6 N2["B<br/>25%"]:3 N3["New pane<br/>25%"]:3
+  Plugin["Equalize VSplit"]:2 E1["A<br/>33.3%"]:4 E2["B<br/>33.3%"]:4 E3["New pane<br/>33.3%"]:4
+```
+
+A normal vsplit divides only the selected pane. Equalize VSplit divides the
+selected pane and then redistributes all horizontal columns to equal widths.
+
 ### Bind a key (optional)
 
 Add a `[[keys.command]]` entry to your Herdr config
