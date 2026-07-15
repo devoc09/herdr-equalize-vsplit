@@ -43,14 +43,44 @@ Starting from two equal-width columns and splitting the right pane, the
 difference between a normal vsplit and Equalize VSplit is:
 
 ```
-Before            50%         |        50%
-                  A          |         B
-───────────────────────────────────────────────
-Normal vsplit     50%         |  25%  |  25%
-                  A          |   B   | New
-───────────────────────────────────────────────
-Equalize VSplit   33.3%  |  33.3%  |  33.3%
-                  A      |    B    |  New
+Before
+
++--------------+--------------+
+|              |              |
+|              |              |
+|              |              |
+|      A       |      B       |
+|     50%      |     50%      |
+|              |              |
+|              |              |
+|              |              |
++--------------+--------------+
+
+Normal vsplit
+
++--------------+-------+------+
+|              |       |      |
+|              |       |      |
+|              |       |      |
+|      A       |   B   | New  |
+|     50%      |  25%  | 25%  |
+|              |       |      |
+|              |       |      |
+|              |       |      |
++--------------+-------+------+
+
+Equalize VSplit
+
++---------+---------+---------+
+|         |         |         |
+|         |         |         |
+|         |         |         |
+|    A    |    B    |   New   |
+|  33.3%  |  33.3%  |  33.3%  |
+|         |         |         |
+|         |         |         |
+|         |         |         |
++---------+---------+---------+
 ```
 
 A normal vsplit divides only the selected pane. Equalize VSplit divides the
