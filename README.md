@@ -42,12 +42,15 @@ direction and recalculates the equal ratio for each column.
 Starting from two equal-width columns and splitting the right pane, the
 difference between a normal vsplit and Equalize VSplit is:
 
-```mermaid
-block-beta
-  columns 14
-  Before["Before"]:2 A["A<br/>50%"]:6 B["B<br/>50%"]:6
-  Normal["Normal vsplit"]:2 N1["A<br/>50%"]:6 N2["B<br/>25%"]:3 N3["New pane<br/>25%"]:3
-  Plugin["Equalize VSplit"]:2 E1["A<br/>33.3%"]:4 E2["B<br/>33.3%"]:4 E3["New pane<br/>33.3%"]:4
+```
+Before            50%         |        50%
+                  A          |         B
+───────────────────────────────────────────────
+Normal vsplit     50%         |  25%  |  25%
+                  A          |   B   | New
+───────────────────────────────────────────────
+Equalize VSplit   33.3%  |  33.3%  |  33.3%
+                  A      |    B    |  New
 ```
 
 A normal vsplit divides only the selected pane. Equalize VSplit divides the
