@@ -1,0 +1,12 @@
+id = "local.equalize-vsplit"
+name = "Equalize VSplit"
+version = "0.1.0"
+min_herdr_version = "0.7.0"
+description = "Split pane right and equalize column widths in the current tab"
+platforms = ["macos"]
+
+[[actions]]
+id = "split"
+title = "Split and equalize columns"
+contexts = ["pane"]
+command = ["./bin/herdr-equalize-vsplit"]
