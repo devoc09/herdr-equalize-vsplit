@@ -44,7 +44,7 @@ Add a `[[keys.command]]` entry to your Herdr config
 
 ```toml
 [[keys.command]]
-key = "prefix+\\"
+key = "prefix+v"
 type = "plugin_action"
 command = "devoc09.equalize-vsplit.split"
 description = "Split and equalize columns"
